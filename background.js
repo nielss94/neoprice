@@ -89,7 +89,7 @@ function findPrice(list, path){
 
           if(path =='shop'){
             $.each($('td.content form:nth-child(14) table tr td:nth-child(1) b'), function(row){
-              if($('td.content form:nth-child(14) table tr td:nth-child(1) b').eq(a).html() == string){
+              if($('td.content form:nth-child(14) table tr td:nth-child(1) b').eq(a).html()==string){
                 //Updating the shop prices
                 $('td.content form:nth-child(14) table tbody td:nth-child(7) input').eq(a-1).val(price)
               }
@@ -97,7 +97,13 @@ function findPrice(list, path){
           }else if(path =='item'){
             $('body table:nth-child(6) tbody').append('<td><b>JellyNeo Price:<b></td><td>' + price + ' NP </td>');
           }else if(path =='inventory'){
-            $('tbody.ct-active tr:nth-child(2) td table td')
+
+            $.each($('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td'), function(row){
+              if(($('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td').eq(a).html().split('<br>')[1]== string)){
+                if($('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td').eq(a).hasClass("price") == false)
+                $('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td').eq(a).append('<div class="price"><br><b>' + price + ' NP </b></div>')
+              }
+            })
           }
         }
       })
