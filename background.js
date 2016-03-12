@@ -10,7 +10,7 @@ if (window.location.pathname === '/gallery/index.phtml') {
   console.log('Scanning Gallery...');
   var list = [];
   var items = $('b.textcolor');
-  filterData(items, list);
+  //filterData(items, list);
   findPrice(list, 'gallery');
 }
 
@@ -19,31 +19,33 @@ if(window.location.pathname === '/market.phtml'){
   var list = []
   var items = $('td.content form:nth-child(14) table tbody  td:nth-child(1) b');
   filterData(items, list);
-  debugger
-  items.splice(-1,2) //splicing "PIN" and "..."
-  items.splice(0,1)
   findPrice(list, 'shop');
 }
 
 function findPrice(list, path){
-  var i = 0;
   $.each(list, function(a, string) {
+    if(string != 'Enter your PIN:' && string!= 'PIN' && string !='Name'){
       return $.ajax({
-        url: "http://items.jellyneo.net/index.php?go=show_items&name=" + string + "&name_type=exact&desc=&cat=0&specialcat=0&status=0&rarity=0&sortby=name&numitems=1"
-      }).done(function(res) {
-        var price;
-        console.info("Trying ... " + string);
-        price = +$(res).find('.itemstable td a:last').text().replace(RegExp(" NP"), '').replace(RegExp(","), '');
-        console.info('%cITEM: ' + string + ' -- %c' + price + ' NP', 'color:blue;', 'color:red;');
+        url: "http://items.jellyneo.net/index.php?go=show_items&name=" + string + "&name_type=exact&desc=&cat=0&specialcat=0&status=0&rarity=0&sortby=name&numitems=1",
+        success: function(res){
+          var price;
+          console.info("Trying ... " + string);
+          price = +$(res).find('.itemstable td a:last').text().replace(RegExp(" NP"), '').replace(RegExp(","), '');
+          console.info('%cITEM: ' + string + ' -- %c' + price + ' NP', 'color:blue;', 'color:red;');
 
-        if(path =='shop'){
-            $('td.content form:nth-child(14) table tbody td:nth-child(7) input').eq(i).val(price)
+          if(path =='shop'){
+            $.each($('td.content form:nth-child(14) table tr td:nth-child(1) b'), function(row){
+              if($('td.content form:nth-child(14) table tr td:nth-child(1) b').eq(a).html() == string){
+                $('td.content form:nth-child(14) table tbody td:nth-child(7) input').eq(a-1).val(price)
+              }
+            })
+            }
+          if (a === list.length) {
+            return console.info('%c>>>   FINISHED LIST', 'color:green;');
+          }
         }
-        i++;
-        if (i === list.length) {
-          return console.info('%c>>> FINISHED LIST', 'color:green;');
-        }
-      });
+      })
+    }
   });
 }
 
