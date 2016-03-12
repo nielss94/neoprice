@@ -40,9 +40,13 @@ if(window.location.pathname ==='/iteminfo.phtml'){
 if(window.location.pathname ==='/inventory.phtml'){
   console.log('Scanning inventory items..');
   var list = []
-  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
+
+  var items = $('td.content div:nth-child(14) table tbody tr:nth-child(2) td table');
+  $.each(items, function(index, item){
+    item =  item.eq(index).html().split('<br>')[1];
+  })
   filterData(items, list);
-  findPrice(list, 'item');
+  findPrice(list, 'inventory');
 }
 
 //Shops
@@ -51,7 +55,7 @@ if(window.location.pathname ==='/objects.phtml'){
   var list = []
   var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
   filterData(items, list);
-  findPrice(list, 'item');
+  findPrice(list, 'shops');
 }
 
 //Money tree
@@ -60,7 +64,7 @@ if(window.location.pathname ==='/donations.phtml'){
   var list = []
   var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
   filterData(items, list);
-  findPrice(list, 'item');
+  findPrice(list, 'donations');
 }
 
 //Ajac request to jellyneo's database to fetch the prices
@@ -86,8 +90,9 @@ function findPrice(list, path){
             })
           }else if(path =='item'){
             $('body table:nth-child(6) tbody').append('<td><b>JellyNeo Price:<b></td><td>' + price + '</td>');
-
-        }
+          }else if(path =='inventory'){
+            $('tbody.ct-active tr:nth-child(2) td table td')
+          }
           if (a === list.length) {
             return console.info('%c>>>   FINISHED LIST', 'color:green;');
           }
