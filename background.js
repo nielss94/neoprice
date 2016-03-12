@@ -27,6 +27,42 @@ if(window.location.pathname === '/market.phtml'){
   findPrice(list, 'shop');
 }
 
+//On view of item in the inventory
+if(window.location.pathname ==='/iteminfo.phtml'){
+  console.log('Scanning item');
+  var list = []
+  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
+  filterData(items, list);
+  findPrice(list, 'item');
+}
+
+//User's inventory
+if(window.location.pathname ==='/inventory.phtml'){
+  console.log('Scanning inventory items..');
+  var list = []
+  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
+  filterData(items, list);
+  findPrice(list, 'item');
+}
+
+//Shops
+if(window.location.pathname ==='/objects.phtml'){
+  console.log('Scanning inventory items..');
+  var list = []
+  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
+  filterData(items, list);
+  findPrice(list, 'item');
+}
+
+//Money tree
+if(window.location.pathname ==='/donations.phtml'){
+  console.log('Scanning inventory items..');
+  var list = []
+  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
+  filterData(items, list);
+  findPrice(list, 'item');
+}
+
 //Ajac request to jellyneo's database to fetch the prices
 function findPrice(list, path){
   $.each(list, function(a, string) {
@@ -48,7 +84,10 @@ function findPrice(list, path){
                 $('td.content form:nth-child(14) table tbody td:nth-child(7) input').eq(a-1).val(price)
               }
             })
-            }
+          }else if(path =='item'){
+            $('body table:nth-child(6) tbody').append('<td><b>JellyNeo Price:<b></td><td>' + price + '</td>');
+
+        }
           if (a === list.length) {
             return console.info('%c>>>   FINISHED LIST', 'color:green;');
           }
