@@ -40,12 +40,17 @@ if(window.location.pathname ==='/iteminfo.phtml'){
 if(window.location.pathname ==='/inventory.phtml'){
   console.log('Scanning inventory items..');
   var list = []
-
   var items = $('td.content div:nth-child(14) table tbody tr:nth-child(2) td table');
-  $.each(items, function(index, item){
-    item =  item.eq(index).html().split('<br>')[1];
-  })
   filterData(items, list);
+  list = list[0].trim().split('\n');
+  $.each(list, function(index,obj){
+    //remove if null
+    if(obj != null){
+      if(obj == ''){
+        list.splice(index, 1);
+      }
+    }
+  })
   findPrice(list, 'inventory');
 }
 
