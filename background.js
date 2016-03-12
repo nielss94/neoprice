@@ -1,3 +1,6 @@
+//Created by:Spurrya Jaggi
+
+//Your safety deposit box
 if (window.location.pathname === '/safetydeposit.phtml') {
   console.log('Scanning Safety Box...');
   var list = [];
@@ -6,6 +9,7 @@ if (window.location.pathname === '/safetydeposit.phtml') {
   findPrice(list, 'sdb')
 }
 
+//For viewing gallery items
 if (window.location.pathname === '/gallery/index.phtml') {
   console.log('Scanning Gallery...');
   var list = [];
@@ -14,6 +18,7 @@ if (window.location.pathname === '/gallery/index.phtml') {
   findPrice(list, 'gallery');
 }
 
+//For user shop
 if(window.location.pathname === '/market.phtml'){
   console.log('Scanning shop items..');
   var list = []
@@ -22,6 +27,7 @@ if(window.location.pathname === '/market.phtml'){
   findPrice(list, 'shop');
 }
 
+//Ajac request to jellyneo's database to fetch the prices
 function findPrice(list, path){
   $.each(list, function(a, string) {
     if(string != 'Enter your PIN:' && string!= 'PIN' && string !='Name'){
@@ -33,9 +39,12 @@ function findPrice(list, path){
           price = +$(res).find('.itemstable td a:last').text().replace(RegExp(" NP"), '').replace(RegExp(","), '');
           console.info('%cITEM: ' + string + ' -- %c' + price + ' NP', 'color:blue;', 'color:red;');
 
+          //Looping through the table again as the order is lost during ajax call
+
           if(path =='shop'){
             $.each($('td.content form:nth-child(14) table tr td:nth-child(1) b'), function(row){
               if($('td.content form:nth-child(14) table tr td:nth-child(1) b').eq(a).html() == string){
+                //Updating the shop prices
                 $('td.content form:nth-child(14) table tbody td:nth-child(7) input').eq(a-1).val(price)
               }
             })
