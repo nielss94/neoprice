@@ -31,9 +31,10 @@ if(window.location.pathname === '/market.phtml'){
 if(window.location.pathname ==='/iteminfo.phtml'){
   console.log('Scanning item');
   var list = []
-  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
-  filterData(items, list);
-  findPrice(list, 'item');
+  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1].trim();
+  var arr = [];
+  arr.push(items);
+  findPrice(arr, 'item');
 }
 
 //User's inventory
@@ -94,12 +95,9 @@ function findPrice(list, path){
               }
             })
           }else if(path =='item'){
-            $('body table:nth-child(6) tbody').append('<td><b>JellyNeo Price:<b></td><td>' + price + '</td>');
+            $('body table:nth-child(6) tbody').append('<td><b>JellyNeo Price:<b></td><td>' + price + ' NP </td>');
           }else if(path =='inventory'){
             $('tbody.ct-active tr:nth-child(2) td table td')
-          }
-          if (a === list.length) {
-            return console.info('%c>>>   FINISHED LIST', 'color:green;');
           }
         }
       })
