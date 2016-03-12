@@ -99,7 +99,7 @@ function findPrice(list, path){
           }else if(path =='inventory'){
 
             $.each($('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td'), function(row){
-              if(($('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td').eq(a).html().split('<br>')[1]== string)){
+              if($('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td').eq(a).html().split('<br>')[1]== string){
                 if($('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td').eq(a).hasClass("price") == false)
                 $('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td').eq(a).append('<div class="price"><br><b>' + price + ' NP </b></div>')
               }
