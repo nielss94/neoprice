@@ -4,4 +4,4 @@ I observed while my sister plays Neopets she kept restocking her items. For each
 
 #Usage
 
-Will provide chrome extension on Chrome Store for any one interested :)
+Get it now on the [Chrome Web Store!](https://chrome.google.com/webstore/detail/neoprice/lmkpgcbgmdplbdjpdaeklmgkmfikhadc)
