@@ -5,7 +5,7 @@
   "version": "0.0.0.1",
   "content_scripts": [
     {
-      "matches": [ "http://*/*", "https://*/*" ],
+      "matches": [ "http://neopets.com/*" ],
       "js": ["assets/jquery.min.js", "background.js"],
       "all_frames": true,
       "run_at": "document_end"
