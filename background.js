@@ -22,7 +22,7 @@ if (window.location.pathname === '/gallery/index.phtml') {
 if(window.location.pathname === '/market.phtml'){
   console.log('Scanning shop items..');
   var list = []
-  var items = $('td.content form:nth-child(14) table tbody  td:nth-child(1) b');
+  var items = $('td.content form table tbody  td:nth-child(1) b');
   filterData(items, list);
   findPrice(list, 'shop');
 }
@@ -88,10 +88,12 @@ function findPrice(list, path){
           //Looping through the table again as the order is lost during ajax call
 
           if(path =='shop'){
-            $.each($('td.content form:nth-child(14) table tr td:nth-child(1) b'), function(row){
-              if($('td.content form:nth-child(14) table tr td:nth-child(1) b').eq(a).html()==string){
+            $.each($('td.content form table tr td:nth-child(1) b'), function(row){
+              if($('td.content form table tr td:nth-child(1) b').eq(a).html()==string){
                 //Updating the shop prices
-                $('td.content form:nth-child(14) table tbody td:nth-child(7) input').eq(a-1).val(price)
+                if(parseInt(price)< 30)
+                    price = 30
+                $('td.content form table tbody td:nth-child(7) input').eq(a-1).val(price)
               }
             })
           }else if(path =='item'){

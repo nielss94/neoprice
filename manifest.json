@@ -2,10 +2,10 @@
   "name": "Neoprice",
   "description": "Fetch the price of the item using Jellyneo's database. Save some item!",
   "manifest_version": 2,
-  "version": "0.0.0.1",
+  "version": "0.0.0.2",
   "content_scripts": [
     {
-      "matches": [ "http://neopets.com/*" ],
+      "matches": [ "http://*/*", "https://*/*" ],
       "js": ["assets/jquery.min.js", "background.js"],
       "all_frames": true,
       "run_at": "document_end"
