@@ -1,5 +1,3 @@
-//Created by:Spurrya Jaggi
-
 //Your safety deposit box
 if (window.location.pathname === '/safetydeposit.phtml') {
   console.log('Scanning Safety Box...');
@@ -37,6 +35,15 @@ if(window.location.pathname ==='/iteminfo.phtml'){
   findPrice(arr, 'item');
 }
 
+if(window.location.pathname === '/donations.phtml'){
+  console.log('Scanning item');
+  var list = []
+  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1].trim();
+  var arr = [];
+  arr.push(items);
+  findPrice(arr, 'item');
+}
+
 //User's inventory
 if(window.location.pathname ==='/inventory.phtml'){
   console.log('Scanning inventory items..');
@@ -66,15 +73,26 @@ if(window.location.pathname ==='/objects.phtml'){
 
 //Money tree
 if(window.location.pathname ==='/donations.phtml'){
-  console.log('Scanning inventory items..');
+  console.log('Scanning donations items..');
   var list = []
-  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1];
-  filterData(items, list);
-  findPrice(list, 'donations');
+  var list2 = []
+  var items = $('.name')
+  $.each(items, function(item){
+    var textContent = items[item].textContent
+    console.log(textContent)
+    list.push(textContent)
+  })
+
+  console.log(list)
+
+  filterData(list, list2);
+  findPrice(list2, 'donations');
 }
 
 //Ajac request to jellyneo's database to fetch the prices
 function findPrice(list, path){
+  highestPrice = 0
+  itemToGet = ''
   $.each(list, function(a, string) {
     if(string != 'Enter your PIN:' && string!= 'PIN' && string !='Name'){
       return $.ajax({
@@ -82,7 +100,7 @@ function findPrice(list, path){
         success: function(res){
           var price;
           console.info("Trying ... " + string);
-          price = +$(res).find('.itemstable td a:last').text().replace(RegExp(" NP"), '').replace(RegExp(","), '');
+          price = +$(res).find('.price-history-link').text().replace(RegExp(" NP"), '').replace(RegExp(","), '');
           console.info('%cITEM: ' + string + ' -- %c' + price + ' NP', 'color:blue;', 'color:red;');
 
           //Looping through the table again as the order is lost during ajax call
@@ -90,9 +108,6 @@ function findPrice(list, path){
           if(path =='shop'){
             $.each($('td.content form table tr td:nth-child(1) b'), function(row){
               if($('td.content form table tr td:nth-child(1) b').eq(a).html()==string){
-                //Updating the shop prices
-                if(parseInt(price)< 30)
-                    price = 30
                 $('td.content form table tbody td:nth-child(7) input').eq(a-1).val(price)
               }
             })
@@ -106,11 +121,20 @@ function findPrice(list, path){
                 $('td.content div:nth-child(14) table tbody tr:nth-child(2) td table td').eq(a).append('<div class="price"><br><b>' + price + ' NP </b></div>')
               }
             })
+          } else if(path =='donations'){
+            $('.donated').append(price + ' NP </td>');
+            if (price > highestPrice){
+              highestPrice = price
+              itemToGet = string
+            }
           }
         }
       })
     }
   });
+  if(path =='donations'){
+    $('p:contains("' + itemToGet +'")').append("GET THIS!!!!");
+  }
 }
 
 function filterData(items, list){
