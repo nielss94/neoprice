@@ -35,15 +35,6 @@ if(window.location.pathname ==='/iteminfo.phtml'){
   findPrice(arr, 'item');
 }
 
-if(window.location.pathname === '/donations.phtml'){
-  console.log('Scanning item');
-  var list = []
-  var items = $('body table:nth-child(2) tbody tr td:nth-child(2)').html().trim().split('<br>')[0].split(':')[1].trim();
-  var arr = [];
-  arr.push(items);
-  findPrice(arr, 'item');
-}
-
 //User's inventory
 if(window.location.pathname ==='/inventory.phtml'){
   console.log('Scanning inventory items..');
@@ -75,7 +66,6 @@ if(window.location.pathname ==='/objects.phtml'){
 if(window.location.pathname ==='/donations.phtml'){
   console.log('Scanning donations items..');
   var list = []
-  var list2 = []
   var items = $('.name')
   $.each(items, function(item){
     var textContent = items[item].textContent
@@ -84,15 +74,14 @@ if(window.location.pathname ==='/donations.phtml'){
   })
 
   console.log(list)
-
-  filterData(list, list2);
-  findPrice(list2, 'donations');
+  findPrice(list, 'donations');
 }
 
+var highestPrice = 0
+var itemToGet = ''
 //Ajac request to jellyneo's database to fetch the prices
 function findPrice(list, path){
-  highestPrice = 0
-  itemToGet = ''
+
   $.each(list, function(a, string) {
     if(string != 'Enter your PIN:' && string!= 'PIN' && string !='Name'){
       return $.ajax({
@@ -122,19 +111,18 @@ function findPrice(list, path){
               }
             })
           } else if(path =='donations'){
-            $('.donated').append(price + ' NP </td>');
+            $('p:contains("' + string +'")').html( ' ' + price + ' NP </td>');
             if (price > highestPrice){
               highestPrice = price
               itemToGet = string
             }
+          }else if(path == 'sdb'){
+            $('b:contains("' + string +'")').append( ' ' + price + ' NP </td>');
           }
         }
       })
     }
   });
-  if(path =='donations'){
-    $('p:contains("' + itemToGet +'")').append("GET THIS!!!!");
-  }
 }
 
 function filterData(items, list){
