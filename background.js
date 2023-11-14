@@ -1,14 +1,14 @@
 //Your safety deposit box
 if (window.location.pathname === '/safetydeposit.phtml') {
-  var search_button_location = $('.submit_data').parent();
-  $(`<input type="button" id="search_prices" style="margin-right: 8px" value="Search JellyNeo Prices">`).insertBefore('.submit_data');
+  var search_button_location = $('input[value="Find"]').parent()
+  search_button_location.append($(`<input type="button" id="search_prices" style="margin-left: 8px" value="Search JellyNeo Prices">`));
 
   var onCooldown = false;
   $('#search_prices').click(function () {
     if (onCooldown) {
       if ($('#please_wait').length > 0) return;
 
-      $('<b style="margin-right: 8px" id="please_wait">Wait 1 min...</b>').insertBefore('#search_prices');
+      $('#search_prices').parent().append($('<b style="margin-left: 8px" id="please_wait">Wait 1 min...</b>'));
 
       setTimeout(function () {
         $('#please_wait').remove();
@@ -16,7 +16,7 @@ if (window.location.pathname === '/safetydeposit.phtml') {
       return;
     }
 
-    $('<b style="margin-right: 8px" id="loading_search_text">Searching...</b>').insertBefore('#search_prices');
+    $('#search_prices').parent().append($('<b style="margin-left: 8px" id="loading_search_text">Searching...</b>'));
 
     console.log('Scanning Safety Box...');
     $('b[id=item_jellyneo_np]').remove();
